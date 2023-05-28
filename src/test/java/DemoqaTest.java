@@ -6,11 +6,14 @@ import org.openqa.selenium.Keys;
 
 import java.io.File;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 
 public class DemoqaTest {
+    final String URL = "https://demoqa.com/automation-practice-form";
+    File studentImage = new File("src/test/resources/penny.jpeg");
     String firstName = "Test";
     String lastName = "Testov";
     String email = "test@testov.com";
@@ -26,6 +29,8 @@ public class DemoqaTest {
     String city = "Delhi";
     String submittingText = "Thanks for submitting the form";
 
+
+
     @BeforeAll
     public static void setUp() {
         Configuration.pageLoadStrategy = "eager";
@@ -34,7 +39,7 @@ public class DemoqaTest {
 
     @Test
     public void checkStudentRegistrationForm() {
-        open("https://demoqa.com/automation-practice-form");
+        open(URL);
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         $("#firstName").setValue(firstName);
@@ -42,33 +47,33 @@ public class DemoqaTest {
         $("#userEmail").setValue(email);
         $(byText(gender)).click();
         $("#userNumber").setValue(mobile);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").click();
-        $(byText(monthOfBirth)).click();
-        $(".react-datepicker__year-select").click();
-        $(byText(yearOfBirth)).click();
-        $(".react-datepicker__day--0" + dayOfBirth).click();
+        $("#dateOfBirth-wrapper").$("#dateOfBirthInput").click();
+        $("#dateOfBirth-wrapper").$(".react-datepicker__month-select").click();
+        $("#dateOfBirth-wrapper").$(byText(monthOfBirth)).click();
+        $("#dateOfBirth-wrapper").$(".react-datepicker__year-select").click();
+        $("#dateOfBirth-wrapper").$(byText(yearOfBirth)).click();
+        $("#dateOfBirth-wrapper").$(".react-datepicker__day--0" + dayOfBirth).click();
         $("#subjectsInput").setValue(subjects).press(Keys.DOWN).press(Keys.ENTER);
-        $(byText(hobby)).click();
-        $("#uploadPicture").uploadFile(new File("src/test/resources/penny.jpeg"));
+        $("#hobbiesWrapper").$(byText(hobby)).click();
+        $("#uploadPicture").uploadFile(studentImage);
         $("#currentAddress").setValue(currentAddress);
         $("#state").click();
-        $(byText(state)).click();
+        $("#stateCity-wrapper").$(byText(state)).click();
         $("#city").click();
-        $(byText(city)).click();
+        $("#stateCity-wrapper").$(byText(city)).click();
         $("#submit").click();
 
         $(byText(submittingText)).shouldBe(Condition.visible);
-        $(byText(String.format("%s %s",firstName,lastName))).shouldBe(Condition.visible);
-        $(byText(email)).shouldBe(Condition.visible);
-        $(byText(gender)).shouldBe(Condition.visible);
-        $(byText(mobile)).shouldBe(Condition.visible);
-        $(byText(String.format("%s %s,%s",dayOfBirth,monthOfBirth,yearOfBirth))).shouldBe(Condition.visible);
-        $(byText(subjects)).shouldBe(Condition.visible);
-        $(byText(hobby)).shouldBe(Condition.visible);
-        $(byText("penny.jpeg")).shouldBe(Condition.visible);
-        $(byText(currentAddress)).shouldBe(Condition.visible);
-        $(byText(String.format("%s %s", state,city))).shouldBe(Condition.visible);
+        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text(String.format("%s %s",firstName,lastName)));
+        $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text(email));
+        $(".table-responsive").$(byText("Gender")).parent().shouldHave(text(gender));
+        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text(mobile));
+        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text(String.format("%s %s,%s",dayOfBirth,monthOfBirth,yearOfBirth)));
+        $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text(subjects));
+        $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text(hobby));
+        $(".table-responsive").$(byText("Picture")).parent().shouldHave(text(studentImage.getName()));
+        $(".table-responsive").$(byText("Address")).parent().shouldHave(text(currentAddress));
+        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text(String.format("%s %s", state,city)));
     }
 
 }
