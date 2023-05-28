@@ -12,7 +12,6 @@ import static com.codeborne.selenide.Selenide.*;
 
 
 public class DemoqaTest {
-    final String URL = "https://demoqa.com/automation-practice-form";
     File studentImage = new File("src/test/resources/penny.jpeg");
     String firstName = "Test";
     String lastName = "Testov";
@@ -33,13 +32,15 @@ public class DemoqaTest {
 
     @BeforeAll
     public static void setUp() {
+        Configuration.baseUrl = "https://demoqa.com/automation-practice-form";
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
+        Configuration.headless = true;
     }
 
     @Test
     public void checkStudentRegistrationForm() {
-        open(URL);
+        open(Configuration.baseUrl);
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         $("#firstName").setValue(firstName);
