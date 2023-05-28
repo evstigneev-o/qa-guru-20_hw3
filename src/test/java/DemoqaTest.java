@@ -29,7 +29,6 @@ public class DemoqaTest {
     String submittingText = "Thanks for submitting the form";
 
 
-
     @BeforeAll
     public static void setUp() {
         Configuration.baseUrl = "https://demoqa.com";
@@ -65,16 +64,16 @@ public class DemoqaTest {
         $("#submit").click();
 
         $(byText(submittingText)).shouldBe(Condition.visible);
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text(String.format("%s %s",firstName,lastName)));
+        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text(String.format("%s %s", firstName, lastName)));
         $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text(email));
         $(".table-responsive").$(byText("Gender")).parent().shouldHave(text(gender));
         $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text(mobile));
-        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text(String.format("%s %s,%s",dayOfBirth,monthOfBirth,yearOfBirth)));
+        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text(String.format("%s %s,%s", dayOfBirth, monthOfBirth, yearOfBirth)));
         $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text(subjects));
         $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text(hobby));
         $(".table-responsive").$(byText("Picture")).parent().shouldHave(text(studentImage.getName()));
         $(".table-responsive").$(byText("Address")).parent().shouldHave(text(currentAddress));
-        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text(String.format("%s %s", state,city)));
+        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text(String.format("%s %s", state, city)));
     }
 
 }
