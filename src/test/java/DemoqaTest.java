@@ -32,7 +32,7 @@ public class DemoqaTest {
 
     @BeforeAll
     public static void setUp() {
-        Configuration.baseUrl = "https://demoqa.com/automation-practice-form";
+        Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
         Configuration.headless = true;
@@ -40,7 +40,7 @@ public class DemoqaTest {
 
     @Test
     public void checkStudentRegistrationForm() {
-        open(Configuration.baseUrl);
+        open("/automation-practice-form");
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         $("#firstName").setValue(firstName);
